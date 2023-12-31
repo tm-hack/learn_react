@@ -31,8 +31,6 @@ function Board({ xIsNext, squares, onPlay }) {
     status = `Next player: ${xIsNext ? "X" : "O"}`;
   }
 
-
-
   return (
     <>
       <div className="status">{status}</div>
@@ -75,6 +73,8 @@ export default function Game() {
     let description;
     if (move === 0) {
       description = "Go to game start";
+    } else if (move === currentMove) {
+      description = `You are at move #${move}`;
     } else {
       description = `Go to move #${move}`;
     }
