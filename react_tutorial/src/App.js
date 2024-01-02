@@ -24,7 +24,7 @@ function Board({ xIsNext, squares, onPlay }) {
     }
 
     // 次のプレイヤーに切り替える
-    onPlay(nextSquares);
+    onPlay(nextSquares, i);
   }
 
   // 勝者がいる場合は、勝者を表示する
@@ -63,15 +63,18 @@ function Board({ xIsNext, squares, onPlay }) {
 
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [moveHistory, setMoveHistory] = useState([null]);
   const [currentMove, setCurrentMove] = useState(0);
   const [isAscending, setIsAscending] = useState(true);
 
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
-  function handlePlay(nextSquares) {
+  function handlePlay(nextSquares, nextPosition) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    const nextMoveHistory = [...moveHistory.slice(0, currentMove + 1), nextPosition];
     setHistory(nextHistory);
+    setMoveHistory(nextMoveHistory)
     setCurrentMove(nextHistory.length - 1);
   }
 
@@ -85,12 +88,15 @@ export default function Game() {
 
   const moves = history.map((squares, move) => {
     let description;
+    const row = Math.floor(moveHistory[move] / 3) + 1;
+    const col = moveHistory[move] % 3 + 1;
+
     if (move === 0) {
       description = "Go to game start";
     } else if (move === currentMove) {
-      description = `You are at move #${move} `;
+      description = `You are at move #${move} (${row}, ${col})`;
     } else {
-      description = `Go to move #${move} `;
+      description = `Go to move #${move} (${row}, ${col})`;
     }
 
     return (
@@ -107,11 +113,19 @@ export default function Game() {
   return (
     <div className="game">
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        <Board
+          xIsNext={xIsNext}
+          squares={currentSquares}
+          onPlay={handlePlay}
+        />
       </div>
       <div className="game-info">
-        <button onClick={handleSortToggle}>{isAscending ? 'Sort Descending' : 'Sort Ascending'}</button>
-        <ol reversed={isAscending ? false : true} start={isAscending ? undefined : moves.length}>{moves}</ol>
+        <button onClick={handleSortToggle}>
+          {isAscending ? 'Sort Descending' : 'Sort Ascending'}
+        </button>
+        <ul reversed={isAscending ? false : true} start={isAscending ? undefined : moves.length}>
+          {moves}
+        </ul>
       </div>
     </div>
   );
