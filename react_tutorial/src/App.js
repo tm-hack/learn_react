@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-function Square({ value, onSquareClick }) {
+function Square({ value, onSquareClick, isHighlighted }) {
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button className={`square ${isHighlighted ? 'highlight' : ''}`} onClick={onSquareClick}>
       {value}
     </button>
   );
@@ -10,25 +10,31 @@ function Square({ value, onSquareClick }) {
 
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
-    if (squares[i] != null || calculateWinner(squares)) {
+    // どちらかが勝利している場合は、クリックしても何もしない
+    if (squares[i] != null || calculateWinner(squares).winner != null) {
       return;
     }
 
+    // クリックしたマス目に、X か O を入れる
     const nextSquares = squares.slice();
     if (xIsNext) {
       nextSquares[i] = "X";
     } else {
       nextSquares[i] = "O";
     }
+
+    // 次のプレイヤーに切り替える
     onPlay(nextSquares);
   }
 
-  const winner = calculateWinner(squares);
+  // 勝者がいる場合は、勝者を表示する
+  // 勝者がいない場合は、次のプレイヤーを表示する
+  const { winner, line } = calculateWinner(squares);
   let status;
   if (winner) {
-    status = `Winner: ${winner}`;
+    status = `Winner: ${winner} `;
   } else {
-    status = `Next player: ${xIsNext ? "X" : "O"}`;
+    status = `Next player: ${xIsNext ? "X" : "O"} `;
   }
 
   return (
@@ -43,6 +49,7 @@ function Board({ xIsNext, squares, onPlay }) {
                 key={index}
                 value={squares[index]}
                 onSquareClick={() => handleClick(index)}
+                isHighlighted={winner != null && line.includes(index)}
               />
             );
           })}
@@ -79,9 +86,9 @@ export default function Game() {
     if (move === 0) {
       description = "Go to game start";
     } else if (move === currentMove) {
-      description = `You are at move #${move}`;
+      description = `You are at move #${move} `;
     } else {
-      description = `Go to move #${move}`;
+      description = `Go to move #${move} `;
     }
 
     return (
@@ -126,9 +133,9 @@ function calculateWinner(squares) {
   for (let i = 0, len = lines.length; i < len; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] != null && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { winner: squares[a], line: lines[i] };
     }
   }
 
-  return null;
+  return { winner: null, line: null }
 }
