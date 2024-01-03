@@ -2,7 +2,7 @@
 
 Reactを学習するための検証用リポジトリ。
 
-## 各プロジェクトの説明
+## 各プロジェクトに関するメモ
 
 ### 01_tutorial_react
 
@@ -53,8 +53,6 @@ stateは保持するべきコンポーネントを以下の手順に従って決
 onChangeイベントハンドラにstate変数をセットするためのセッタ関数を設定することで逆方向のデータの流れを実行できる。
 
 ## リンク集
-
-[Reactチュートリアル](https://ja.react.dev/learn/tutorial-tic-tac-toe#completing-the-game)
 
 [commit-logの書き方](https://zenn.dev/itosho/articles/git-commit-message-2023)
 
