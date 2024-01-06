@@ -2,6 +2,21 @@ import { Box, Center, CheckboxGroup, Text } from '@chakra-ui/react';
 import Task from './component/Task';
 
 const App = () => {
+  const initialTasks = [
+    {
+      name: "買い物",
+      isDone: false
+    },
+    {
+      name: "ランニング",
+      isDone: false
+    },
+    {
+      name: "プログラミングの勉強",
+      isDone: false
+    },
+  ];
+
   return (
     <Box mt="64px">
       <Center>
@@ -12,9 +27,14 @@ const App = () => {
             </Text>
           </Box>
           <CheckboxGroup>
-            <Task name="買い物" />
-            <Task name="ランニング" />
-            <Task name="プログラミングの勉強" />
+            {initialTasks.map((task, index) => {
+              return (
+                <Task
+                  key={index}
+                  name={task.name}
+                  isDone={task.isDone} />
+              );
+            })}
           </CheckboxGroup>
         </Box>
       </Center>
