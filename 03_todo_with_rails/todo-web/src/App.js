@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Center, CheckboxGroup, Text } from '@chakra-ui/react';
 import Task from './component/Task';
+import axios from 'axios';
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
 
+  const fetch = async () => {
+    try {
+      const res = await axios.get('http://localhost:3010/tasks');
+      setTasks(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   useEffect(() => {
-    setTasks(initialTasks)
+    fetch();
   }, []);
 
   const toggleIsChecked = (id) => {
     const tasksCopy = [...tasks];
-    // console.log(tasksCopy);
-    // console.log(id);
     const isDone = tasksCopy[id].isDone;
     tasksCopy[id].isDone = !isDone;
     setTasks(tasksCopy);
@@ -44,11 +52,5 @@ const App = () => {
     </Box>
   );
 }
-
-const initialTasks = [
-  { name: "買い物", isDone: false },
-  { name: "ランニング", isDone: false },
-  { name: "プログラミングの勉強", isDone: false },
-];
 
 export default App;
