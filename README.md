@@ -52,6 +52,17 @@ stateは保持するべきコンポーネントを以下の手順に従って決
 ユーザの入力に従ってstateを変更するには、逆方向へのデータの流れをサポートする必要がある。
 onChangeイベントハンドラにstate変数をセットするためのセッタ関数を設定することで逆方向のデータの流れを実行できる。
 
+## 03_todo_with_rails
+
+[Rails+React（SPA）TODOアプリチュートリアル【0から学ぶ】](<https://zenn.dev/prune/books/0d7d6e3c5f0496>)で作成したプロジェクト。
+
+RailsでWebAPIサーバを構築する方法とReactからAPIを叩くための方法を学んだ。
+ReactからAPIを叩く時のポイントは以下の通り。なお、Railsについてはざっくり理解した程度。
+
+- APIを叩くためには、[axios](https://axios-http.com/ja/docs/intro)をインポートする
+- APIを叩く際はサーバ間の通信が発生するため、他の処理のブロックを防ぐために非同期通信（async, await）を用いる
+- サーバ間の通信障害を想定し、APIを叩く際はtry-catchでエラー内容を補足する
+
 ## リンク集
 
 [commit-logの書き方](https://zenn.dev/itosho/articles/git-commit-message-2023)
