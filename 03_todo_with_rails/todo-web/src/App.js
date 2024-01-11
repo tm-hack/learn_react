@@ -44,11 +44,15 @@ const App = () => {
     fetch();
   }, []);
 
-  const toggleIsChecked = (id) => {
-    const tasksCopy = [...tasks];
-    const isDone = tasksCopy[id].isDone;
-    tasksCopy[id].isDone = !isDone;
-    setTasks(tasksCopy);
+  const toggleIsChecked = async (index, id) => {
+    try {
+      await axios.put(`http://localhost:3010/tasks/${id}`, {
+        is_done: !tasks[index].is_done
+      });
+      fetch();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -77,9 +81,10 @@ const App = () => {
               return (
                 <Task
                   key={index}
+                  index={index}
                   id={task.id}
                   name={task.name}
-                  isDone={task.isDone}
+                  isDone={task.is_done}
                   toggleIsChecked={toggleIsChecked}
                   destroyTaskById={destroyTaskById} />
               );

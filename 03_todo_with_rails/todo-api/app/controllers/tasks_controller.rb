@@ -9,6 +9,12 @@ class TasksController < ApplicationController
     head :created
   end
 
+  def updateTaskById
+    task = Task.find(params[:id])
+    task.update(task_params)
+    head :ok
+  end
+
   def destoryTaskById
     task = Task.find(params[:id])
     task.destroy

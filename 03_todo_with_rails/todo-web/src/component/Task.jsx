@@ -8,7 +8,7 @@ const Task = (props) => {
         isChecked={props.isDone}
         colorScheme="blue"
         size="lg"
-        onChange={() => props.toggleIsChecked(props.id)}
+        onChange={() => props.toggleIsChecked(props.index, props.id)}
       >
         <Text>{props.name}</Text>
       </Checkbox>
