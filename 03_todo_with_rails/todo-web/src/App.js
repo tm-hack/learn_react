@@ -30,6 +30,16 @@ const App = () => {
     }
   }
 
+  const destroyTaskById = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3010/tasks/${id}`);
+      fetch();
+    } catch (e) {
+      console.log(e);
+      //#TODO エラーメッセージを画面に表示する
+    }
+  }
+
   useEffect(() => {
     fetch();
   }, []);
@@ -67,10 +77,11 @@ const App = () => {
               return (
                 <Task
                   key={index}
-                  id={index}
+                  id={task.id}
                   name={task.name}
                   isDone={task.isDone}
-                  toggleIsChecked={toggleIsChecked} />
+                  toggleIsChecked={toggleIsChecked}
+                  destroyTaskById={destroyTaskById} />
               );
             })}
           </CheckboxGroup>
